@@ -1,16 +1,61 @@
-# React + Vite
+# NHL Playoff Path
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The NHL provides live standings data through a public API, but there's no clean way to see the current playoff picture at a glance — which teams are in, which are on the bubble, and what the first-round bracket looks like. This project pulls that data into a dark-themed React UI that shows live division standings, playoff seeding, and first-round matchups for both conferences.
 
-Currently, two official plugins are available:
+**[Live site →](https://nhlplayoffpath.com)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## How it works
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A private Lambda function fetches current standings from the NHL API, wraps the response with an `updated_at` timestamp, and writes it to S3. CloudFront serves both the static frontend and the standings data from the same distribution. The site shows when the data was last refreshed and the Lambda is invoked manually whenever an update is needed.
 
-## Expanding the ESLint configuration
+```
+Lambda (manual invoke)
+ → NHL API → standings.json → S3 → CloudFront → Browser
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The frontend computes playoff seeding entirely client-side from the raw standings data: top 3 from each division qualify automatically, and the best 2 remaining records in each conference take the wild card spots. First-round matchups are derived from those seeds — no backend logic needed.
+
+Infrastructure is defined in TypeScript CDK: a private S3 bucket, CloudFront distribution with OAC, and the Lambda function with scoped IAM permissions to write to S3 and invalidate the CloudFront cache.
+
+---
+
+## Interesting problems
+
+**The NHL API blocks browser requests.** `api-web.nhle.com` doesn't return `Access-Control-Allow-Origin` headers, so fetch calls from the browser are rejected by CORS policy. Rather than stand up a proxy server, the Lambda fetches the data server-side and stores the result in S3. The frontend reads a static JSON file from its own CloudFront origin — no cross-origin requests at runtime.
+
+**`/standings/now` redirects to a dated URL.** The NHL API redirects `/standings/now` to the current date (e.g. `/standings/2026-03-31`). Vite's dev proxy follows this redirect server-side using `followRedirects: true`, so the browser never sees the redirect and CORS doesn't apply in development either.
+
+---
+
+## Stack
+
+- **Infrastructure** — TypeScript CDK (S3, CloudFront with OAC, Lambda, IAM)
+- **Backend** — Node.js 22 Lambda function
+- **Frontend** — React, Vite, Tailwind CSS v4
+- **Region** — us-east-1
+
+---
+
+## Local development
+
+```bash
+npm run frontend:dev
+```
+
+The Vite dev server proxies `/api/nhl/*` to `https://api-web.nhle.com/v1/*` to work around CORS locally.
+
+## Deploying
+
+```bash
+# Build the frontend and deploy the CDK stack
+npm run frontend:build
+npm run deploy
+```
+
+After the first deploy, invoke the Lambda to populate the standings data:
+
+```bash
+aws lambda invoke --function-name <FetchFunctionName from CDK output> response.json
+```
