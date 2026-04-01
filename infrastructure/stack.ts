@@ -5,12 +5,29 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as targets from 'aws-cdk-lib/aws-route53-targets';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import { Construct } from 'constructs';
 import * as path from 'path';
+
+const DOMAIN = 'nhlplayoffpath.com';
 
 export class NhlPlayoffPathStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    // ── Route 53 Hosted Zone (already exists from domain registration) ─────
+    const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
+      domainName: DOMAIN,
+    });
+
+    // ── ACM Certificate (must be us-east-1 for CloudFront) ────────────────
+    const certificate = new acm.Certificate(this, 'Certificate', {
+      domainName: DOMAIN,
+      subjectAlternativeNames: [`www.${DOMAIN}`],
+      validation: acm.CertificateValidation.fromDns(hostedZone),
+    });
 
     // ── S3 Bucket (private) ────────────────────────────────────────────────
     const bucket = new s3.Bucket(this, 'SiteBucket', {
@@ -35,6 +52,8 @@ export class NhlPlayoffPathStack extends cdk.Stack {
     // ── CloudFront Distribution ────────────────────────────────────────────
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultRootObject: 'index.html',
+      domainNames: [DOMAIN, `www.${DOMAIN}`],
+      certificate,
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(bucket, {
           originAccessControl: oac,
@@ -56,6 +75,18 @@ export class NhlPlayoffPathStack extends cdk.Stack {
         { httpStatus: 403, responseHttpStatus: 200, responsePagePath: '/index.html' },
         { httpStatus: 404, responseHttpStatus: 200, responsePagePath: '/index.html' },
       ],
+    });
+
+    // ── Route 53 DNS Records ───────────────────────────────────────────────
+    new route53.ARecord(this, 'ARecord', {
+      zone: hostedZone,
+      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
+    });
+
+    new route53.ARecord(this, 'WwwARecord', {
+      zone: hostedZone,
+      recordName: 'www',
+      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
     });
 
     // ── Lambda: Fetch NHL Standings ────────────────────────────────────────
@@ -95,8 +126,8 @@ export class NhlPlayoffPathStack extends cdk.Stack {
 
     // ── Outputs ────────────────────────────────────────────────────────────
     new cdk.CfnOutput(this, 'SiteUrl', {
-      value: `https://${distribution.distributionDomainName}`,
-      description: 'CloudFront URL for the site',
+      value: `https://${DOMAIN}`,
+      description: 'Live site URL',
     });
 
     new cdk.CfnOutput(this, 'FetchFunctionName', {
