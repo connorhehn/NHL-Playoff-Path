@@ -44,6 +44,17 @@ export default function AboutModal({ onClose }) {
           <p className="text-slate-600 text-xs">
             Data provided by the NHL API · Not affiliated with the NHL
           </p>
+          <p className="text-slate-600 text-xs">
+            Inspired by{' '}
+            <a
+              href="https://www.nflplayoffpath.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-400 transition-colors"
+            >
+              nflplayoffpath.com
+            </a>
+          </p>
         </div>
       </div>
     </div>
