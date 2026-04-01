@@ -108,3 +108,34 @@ export function computePlayoffPicture(standings) {
 
   return result;
 }
+
+/**
+ * Lightweight version used by Monte Carlo — skips building matchup/bracket
+ * objects and just returns the Set of abbrevs that made the playoffs.
+ */
+export function computePlayoffTeams(standings) {
+  const conferences = {};
+
+  for (const team of standings) {
+    const conf = team.conferenceName;
+    const div = team.divisionName;
+    if (!conferences[conf]) conferences[conf] = {};
+    if (!conferences[conf][div]) conferences[conf][div] = [];
+    conferences[conf][div].push(team);
+  }
+
+  const playoffTeams = new Set();
+
+  for (const divisions of Object.values(conferences)) {
+    const [divA, divB] = Object.values(divisions).map(sortByPoints);
+    for (const team of [...divA.slice(0, 3), ...divB.slice(0, 3)]) {
+      playoffTeams.add(team.teamAbbrev?.default);
+    }
+    const wcPool = sortByPoints([...divA.slice(3), ...divB.slice(3)]);
+    for (const team of wcPool.slice(0, 2)) {
+      playoffTeams.add(team.teamAbbrev?.default);
+    }
+  }
+
+  return playoffTeams;
+}

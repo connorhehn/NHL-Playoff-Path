@@ -1,3 +1,5 @@
+import TeamLogo from './TeamLogo';
+
 function SeedSlot({ seed, team, label, isWildCard }) {
   if (!team) return null;
   const abbrev = team.teamAbbrev?.default ?? '';
@@ -13,7 +15,7 @@ function SeedSlot({ seed, team, label, isWildCard }) {
       }`}
     >
       <span className="text-slate-500 text-xs font-bold w-4 text-center">{seed}</span>
-      {logo && <img src={logo} alt={abbrev} className="w-5 h-5 object-contain" />}
+      <TeamLogo src={logo} abbrev={abbrev} className="w-5 h-5 object-contain" />
       <span className="font-semibold text-white text-sm flex-1">{abbrev}</span>
       <span className="text-slate-400 text-xs">{pts} pts</span>
     </div>

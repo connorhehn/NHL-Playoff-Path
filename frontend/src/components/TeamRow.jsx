@@ -1,3 +1,5 @@
+import TeamLogo from './TeamLogo';
+
 const CLINCH_LABELS = {
   e: { label: 'E', title: 'Eliminated', color: 'bg-red-900/60 text-red-400' },
   x: { label: 'X', title: 'Clinched Playoff Berth', color: 'bg-green-900/60 text-green-400' },
@@ -30,9 +32,7 @@ export default function TeamRow({ team, rank, isIn, isWildCard, isBubble }) {
       <td className={`py-2 pl-3 pr-1 text-slate-400 text-sm w-6 ${borderLeft}`}>{rank}</td>
       <td className="py-2 px-2">
         <div className="flex items-center gap-2">
-          {logo && (
-            <img src={logo} alt={abbrev} className="w-6 h-6 object-contain flex-shrink-0" />
-          )}
+          <TeamLogo src={logo} abbrev={abbrev} className="w-6 h-6 object-contain flex-shrink-0" />
           <span className="font-semibold text-white text-sm">{abbrev}</span>
           <span className="text-slate-400 text-sm hidden sm:inline">{name}</span>
           {clinch && (
