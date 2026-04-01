@@ -87,7 +87,7 @@ export default function App() {
         </div>
       </footer>
 
-      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
+{showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     </div>
   );
 }
