@@ -1,6 +1,6 @@
 export default function SimulatorHero({ overrideCount, onReset }) {
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+    <div className="bg-slate-800 border border-slate-600 rounded-xl p-6">
       <h2 className="text-xl font-bold text-white mb-1">
         Build your own NHL playoff path.
       </h2>
@@ -21,13 +21,13 @@ export default function SimulatorHero({ overrideCount, onReset }) {
         </span>
       </div>
 
-      <div className="border-t border-slate-700 pt-4 space-y-2 text-sm text-slate-400">
+      <div className="border-t border-slate-600 pt-4 space-y-2 text-sm text-slate-400">
         <p><span className="text-slate-200 font-medium">1</span> — Select a team, then click <span className="bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded font-mono text-xs">W</span> <span className="bg-sky-400/20 text-sky-300 px-1.5 py-0.5 rounded font-mono text-xs">OTW</span> <span className="bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono text-xs">OTL</span> <span className="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded font-mono text-xs">L</span> on any upcoming matchup to set the outcome</p>
         <p><span className="text-slate-200 font-medium">2</span> — Watch playoff odds recalculate instantly across all 32 teams</p>
         <p><span className="text-slate-200 font-medium">3</span> — Click the same button again to clear that game</p>
       </div>
 
-      <div className="border-t border-slate-700 pt-4 mt-4 grid grid-cols-2 gap-4">
+      <div className="border-t border-slate-600 pt-4 mt-4 grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Scoring</p>
           <div className="flex flex-col gap-1">

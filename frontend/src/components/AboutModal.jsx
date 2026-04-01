@@ -5,7 +5,7 @@ export default function AboutModal({ onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4"
+        className="bg-slate-800 border border-slate-600 rounded-2xl max-w-md w-full p-6 space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between">
@@ -29,7 +29,7 @@ export default function AboutModal({ onClose }) {
           instantly across all 32 teams using Monte Carlo simulations.
         </p>
 
-        <div className="border-t border-slate-800 pt-4 space-y-1 text-sm">
+        <div className="border-t border-slate-700 pt-4 space-y-1 text-sm">
           <p className="text-slate-400">
             Built by{' '}
             <a

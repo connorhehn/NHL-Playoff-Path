@@ -12,7 +12,7 @@ export default function TeamGames({ abbrev, games, overrides, onToggle, odds, te
 
   if (teamGames.length === 0) {
     return (
-      <div className="bg-slate-900 rounded-xl border border-slate-800 px-4 py-8 text-center text-slate-500 text-sm">
+      <div className="bg-slate-800 rounded-xl border border-slate-700 px-4 py-8 text-center text-slate-500 text-sm">
         No remaining games for {abbrev}.
       </div>
     );
@@ -21,8 +21,8 @@ export default function TeamGames({ abbrev, games, overrides, onToggle, odds, te
   const setCount = teamGames.filter(({ game }) => overrides[game.id]).length;
 
   return (
-    <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+    <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-700 flex items-center justify-between">
         <p className="text-sm font-semibold text-white">
           {abbrev} · {teamGames.length} remaining game{teamGames.length !== 1 ? 's' : ''}
         </p>
@@ -31,7 +31,7 @@ export default function TeamGames({ abbrev, games, overrides, onToggle, odds, te
         )}
       </div>
       {odds && teamStanding && (
-        <div className="px-4 py-2.5 border-b border-slate-800 flex items-center gap-3 bg-slate-800/30">
+        <div className="px-4 py-2.5 border-b border-slate-700 flex items-center gap-3 bg-slate-700/40">
           <TeamLogo src={teamStanding.teamLogo} abbrev={abbrev} className="w-5 h-5 object-contain flex-shrink-0" />
           <span className="text-white text-sm font-semibold w-10">{abbrev}</span>
           <span className="text-slate-500 text-xs w-8 text-right">{teamStanding.points}pt</span>

@@ -29,13 +29,13 @@ export default function TeamPicker({ standings, games, overrides, selectedAbbrev
   }
 
   return (
-    <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-800">
+    <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-700">
         <p className="text-sm font-semibold text-slate-300">Select a team to set their remaining games</p>
       </div>
       {CONFERENCE_ORDER.filter((c) => byConf[c]).map((conf) => (
-        <div key={conf} className="border-b border-slate-800 last:border-0">
-          <p className="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide bg-slate-900/60">
+        <div key={conf} className="border-b border-slate-700 last:border-0">
+          <p className="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide bg-slate-800/60">
             {conf}
           </p>
           <div className="grid grid-cols-8 sm:grid-cols-8 gap-1 p-2">
@@ -54,7 +54,7 @@ export default function TeamPicker({ standings, games, overrides, selectedAbbrev
                     className={`relative flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
                       isSelected
                         ? 'bg-sky-500/20 border border-sky-500/50'
-                        : 'border border-transparent hover:bg-slate-800'
+                        : 'border border-transparent hover:bg-slate-700'
                     }`}
                   >
                     <TeamLogo

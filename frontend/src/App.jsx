@@ -17,7 +17,7 @@ export default function App() {
   const simulator = useSimulator(standings);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-slate-900 text-slate-100">
       <Header updatedAt={updatedAt} />
       <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
 
@@ -63,7 +63,7 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-slate-800 mt-16 px-6 py-6">
+      <footer className="border-t border-slate-700 mt-16 px-6 py-6">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-slate-600 text-xs">
             Data provided by the NHL API · Not affiliated with the NHL

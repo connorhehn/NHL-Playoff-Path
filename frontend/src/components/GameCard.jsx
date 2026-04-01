@@ -33,11 +33,11 @@ export default function GameCard({ game, teamSide, override, onToggle }) {
   const dimOpponent = teamWins || teamOTW;
 
   const btnBase = 'h-6 rounded text-xs font-bold transition-colors px-1.5';
-  const btnOff  = `${btnBase} bg-slate-800 text-slate-500 hover:bg-slate-700 hover:text-white`;
+  const btnOff  = `${btnBase} bg-slate-700 text-slate-500 hover:bg-slate-700 hover:text-white`;
 
   return (
     <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-colors ${
-      override ? 'border-slate-700 bg-slate-800/50' : 'border-slate-800/60 bg-slate-900/30'
+      override ? 'border-slate-700 bg-slate-700/50' : 'border-slate-700/60 bg-slate-800/30'
     }`}>
       {/* W / OTW / OTL / L buttons */}
       <div className="flex gap-1 flex-shrink-0">

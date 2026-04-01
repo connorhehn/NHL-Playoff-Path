@@ -1,7 +1,7 @@
 export default function OddsBar({ pct }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+      <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-300 ${
             pct >= 0.9 ? 'bg-green-500' : pct >= 0.5 ? 'bg-sky-500' : pct > 0 ? 'bg-slate-500' : 'bg-transparent'

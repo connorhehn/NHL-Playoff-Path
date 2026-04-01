@@ -8,8 +8,8 @@ function ConferenceOdds({ confName, confData, odds }) {
     .sort((a, b) => b.points - a.points);
 
   return (
-    <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-800">
+    <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-700">
         <h3 className="font-bold text-white text-sm tracking-wide uppercase">
           {confName} Conference
         </h3>
@@ -22,7 +22,7 @@ function ConferenceOdds({ confName, confData, odds }) {
           return (
             <div
               key={abbrev}
-              className={`flex items-center gap-3 px-4 py-2.5 ${isIn ? 'bg-slate-800/30' : ''}`}
+              className={`flex items-center gap-3 px-4 py-2.5 ${isIn ? 'bg-slate-700/40' : ''}`}
             >
               <span className="text-slate-600 text-xs w-4">{i + 1}</span>
               <TeamLogo src={team.teamLogo} abbrev={abbrev} className="w-5 h-5 object-contain flex-shrink-0" />

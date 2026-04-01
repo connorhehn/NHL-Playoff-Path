@@ -5,7 +5,7 @@ export default function TabNav({ activeTab, onTabChange }) {
   ];
 
   return (
-    <div className="border-b border-slate-800">
+    <div className="border-b border-slate-700">
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex gap-1">
           {tabs.map((tab) => (
