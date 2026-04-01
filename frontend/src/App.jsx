@@ -3,6 +3,7 @@ import Header from './components/Header';
 import TabNav from './components/TabNav';
 import ConferenceView from './components/ConferenceView';
 import SimulatorView from './components/SimulatorView';
+import AboutModal from './components/AboutModal';
 import { useStandings } from './hooks/useStandings';
 import { useSimulator } from './hooks/useSimulator';
 import './index.css';
@@ -11,6 +12,7 @@ const CONFERENCE_ORDER = ['Eastern', 'Western'];
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('simulator');
+  const [showAbout, setShowAbout] = useState(false);
   const { standings, playoffPicture, updatedAt, loading, error } = useStandings();
   const simulator = useSimulator(standings);
 
@@ -62,10 +64,30 @@ export default function App() {
       </main>
 
       <footer className="border-t border-slate-800 mt-16 px-6 py-6">
-        <p className="text-center text-slate-600 text-xs">
-          Data provided by the NHL API · Not affiliated with the NHL
-        </p>
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-slate-600 text-xs">
+            Data provided by the NHL API · Not affiliated with the NHL
+          </p>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowAbout(true)}
+              className="text-slate-500 hover:text-slate-300 text-xs transition-colors"
+            >
+              About
+            </button>
+            <a
+              href="https://tally.so/r/jaWBQ6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded-full px-3 py-1.5 transition-colors"
+            >
+              Leave feedback
+            </a>
+          </div>
+        </div>
       </footer>
+
+      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     </div>
   );
 }
