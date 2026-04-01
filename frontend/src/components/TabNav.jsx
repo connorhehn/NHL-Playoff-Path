@@ -1,7 +1,7 @@
 export default function TabNav({ activeTab, onTabChange }) {
   const tabs = [
-    { id: 'standings', label: 'Standings' },
     { id: 'simulator', label: 'Simulator' },
+    { id: 'standings', label: 'Standings' },
   ];
 
   return (

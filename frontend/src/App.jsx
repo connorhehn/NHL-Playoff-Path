@@ -10,7 +10,7 @@ import './index.css';
 const CONFERENCE_ORDER = ['Eastern', 'Western'];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('standings');
+  const [activeTab, setActiveTab] = useState('simulator');
   const { standings, playoffPicture, updatedAt, loading, error } = useStandings();
   const simulator = useSimulator(standings);
 
