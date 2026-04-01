@@ -5,8 +5,8 @@ export default function SimulatorHero({ overrideCount, onReset }) {
         Build your own NHL playoff path.
       </h2>
       <p className="text-slate-400 text-sm mb-4">
-        Toggle wins and losses for every remaining regular-season game and watch
-        standings, wild-card races, and playoff odds reshape instantly.
+        Toggle game outcomes for every remaining regular-season game and watch
+        playoff odds reshape instantly across all 32 teams.
       </p>
 
       <div className="flex flex-wrap gap-4 mb-5 text-sm">
@@ -22,7 +22,7 @@ export default function SimulatorHero({ overrideCount, onReset }) {
       </div>
 
       <div className="border-t border-slate-700 pt-4 space-y-2 text-sm text-slate-400">
-        <p><span className="text-slate-200 font-medium">1</span> — Click <span className="bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded font-mono text-xs">W</span> or <span className="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded font-mono text-xs">L</span> on any upcoming matchup to set the outcome</p>
+        <p><span className="text-slate-200 font-medium">1</span> — Select a team, then click <span className="bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded font-mono text-xs">W</span> <span className="bg-sky-400/20 text-sky-300 px-1.5 py-0.5 rounded font-mono text-xs">OTW</span> <span className="bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono text-xs">OTL</span> <span className="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded font-mono text-xs">L</span> on any upcoming matchup to set the outcome</p>
         <p><span className="text-slate-200 font-medium">2</span> — Watch playoff odds recalculate instantly across all 32 teams</p>
         <p><span className="text-slate-200 font-medium">3</span> — Click the same button again to reset that game to undecided</p>
       </div>

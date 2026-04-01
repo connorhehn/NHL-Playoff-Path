@@ -36,6 +36,8 @@ export default function SimulatorView({ standings, playoffPicture, simulator }) 
                 games={games}
                 overrides={overrides}
                 onToggle={toggleOverride}
+                odds={odds}
+                teamStanding={standings.find((t) => t.teamAbbrev?.default === selectedTeam)}
               />
             )}
             {!selectedTeam && (

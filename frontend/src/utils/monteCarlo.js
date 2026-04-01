@@ -53,11 +53,13 @@ export function runMonteCarlo(standings, games, overrides) {
       let awayWins, isOT;
 
       if (override === 'away') {
-        awayWins = true;
-        isOT = false;
+        awayWins = true;  isOT = false;
+      } else if (override === 'awayOT') {
+        awayWins = true;  isOT = true;
+      } else if (override === 'homeOT') {
+        awayWins = false; isOT = true;
       } else if (override === 'home') {
-        awayWins = false;
-        isOT = false;
+        awayWins = false; isOT = false;
       } else {
         const prob = getAwayWinProb(
           strength[game.awayTeam.abbrev] ?? 0.5,
