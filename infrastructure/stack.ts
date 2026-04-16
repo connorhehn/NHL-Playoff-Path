@@ -8,6 +8,8 @@ import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as eventTargets from 'aws-cdk-lib/aws-events-targets';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -115,6 +117,24 @@ export class NhlPlayoffPathStack extends cdk.Stack {
         ],
       })
     );
+
+    // ── EventBridge: auto-refresh standings every 30 min during game hours ──
+    // Active windows (all times ET, converted to UTC assuming EDT = UTC-4):
+    //   1pm–midnight ET  = 17:00–23:30 UTC  (rule 1)
+    //   midnight–3am ET  = 00:00–07:00 UTC  (rule 2)
+    const scheduleTarget = new eventTargets.LambdaFunction(fetchFn);
+
+    new events.Rule(this, 'RefreshAfternoonEvening', {
+      description: 'Refresh NHL standings every 30 min, 1pm–midnight ET',
+      schedule: events.Schedule.cron({ minute: '0,30', hour: '17-23' }),
+      targets: [scheduleTarget],
+    });
+
+    new events.Rule(this, 'RefreshOvernight', {
+      description: 'Refresh NHL standings every 30 min, midnight–3am ET',
+      schedule: events.Schedule.cron({ minute: '0,30', hour: '0-7' }),
+      targets: [scheduleTarget],
+    });
 
     // ── Deploy React frontend to S3 ────────────────────────────────────────
     new s3deploy.BucketDeployment(this, 'DeployFrontend', {
