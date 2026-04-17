@@ -128,12 +128,14 @@ export class NhlPlayoffPathStack extends cdk.Stack {
       description: 'Refresh NHL standings every 30 min, 1pm–midnight ET',
       schedule: events.Schedule.cron({ minute: '0,30', hour: '17-23' }),
       targets: [scheduleTarget],
+      enabled: false, // re-enable at start of next regular season
     });
 
     new events.Rule(this, 'RefreshOvernight', {
       description: 'Refresh NHL standings every 30 min, midnight–3am ET',
       schedule: events.Schedule.cron({ minute: '0,30', hour: '0-7' }),
       targets: [scheduleTarget],
+      enabled: false, // re-enable at start of next regular season
     });
 
     // ── Deploy React frontend to S3 ────────────────────────────────────────
