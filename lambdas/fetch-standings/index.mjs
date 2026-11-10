@@ -20,17 +20,16 @@ async function fetchRemainingGames() {
   const games = [];
   let url = `${NHL_BASE}/schedule/now`;
 
-  // Paginate week by week until no future games remain (max 8 weeks = rest of season)
-  for (let i = 0; i < 8; i++) {
+  // Paginate week by week through the end of the regular season.
+  // A full season is ~28 weeks; cap at 35 as a safety net.
+  for (let i = 0; i < 35; i++) {
     const res = await fetch(url, { headers: HEADERS });
     if (!res.ok) break;
     const data = await res.json();
 
-    let foundFuture = false;
     for (const week of data.gameWeek ?? []) {
       for (const game of week.games ?? []) {
         if (game.gameType === 2 && game.gameState === 'FUT') {
-          foundFuture = true;
           games.push({
             id: game.id,
             date: week.date,
@@ -50,7 +49,8 @@ async function fetchRemainingGames() {
       }
     }
 
-    if (!foundFuture || !data.nextStartDate) break;
+    const seasonEnd = data.regularSeasonEndDate;
+    if (!data.nextStartDate || (seasonEnd && data.nextStartDate > seasonEnd)) break;
     url = `${NHL_BASE}/schedule/${data.nextStartDate}`;
   }
 

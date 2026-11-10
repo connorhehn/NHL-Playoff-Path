@@ -1,3 +1,9 @@
+// NHL seasons start in the fall: Jul–Dec belongs to the season starting this year.
+function currentSeasonLabel(now = new Date()) {
+  const startYear = now.getMonth() >= 6 ? now.getFullYear() : now.getFullYear() - 1;
+  return `${startYear}–${String(startYear + 1).slice(-2)}`;
+}
+
 export default function Header({ updatedAt }) {
   const formatted = updatedAt
     ? new Date(updatedAt).toLocaleString('en-US', {
@@ -20,7 +26,7 @@ export default function Header({ updatedAt }) {
             <span className="text-slate-400"> Path</span>
           </div>
           <span className="hidden sm:inline-block text-xs bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded-full px-2 py-0.5 font-medium">
-            2024–25
+            {currentSeasonLabel()}
           </span>
         </div>
         <div className="text-right">
